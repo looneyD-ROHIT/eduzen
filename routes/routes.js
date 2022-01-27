@@ -15,6 +15,7 @@ const CLIENT_ID = `${process.env.CLIENT_ID}`;
 const CLIENT_SECRET = `${process.env.CLIENT_SECRET}`;
 const REFRESH_TOKEN = `${process.env.REFRESH_TOKEN}`;
 const REDIRECT_URI = `${process.env.REDIRECT_URI}`;
+const MONGODB_URI = `${process.env.MONGODB_URI}`;
 
 const oAuth2Client = new google.auth.OAuth2(CLIENT_ID,CLIENT_SECRET,REDIRECT_URI);
 oAuth2Client.setCredentials({refresh_token:`${REFRESH_TOKEN}`});
@@ -57,10 +58,12 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost:27017/edu1', {
+mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
 	useUnifiedTopology: true,
-});
+	})
+	.then(() => console.log(`Connection Established!`))
+	.catch(err => console.log(`Connection Failed!`));
 
 // importing user schema
 const User = require(path.join(__dirname,'../model/model.js'));
@@ -70,34 +73,34 @@ const Subs = require(path.join(__dirname,'../model/modelNewsletter.js'));
 // default page (homePage) (get)
 router.get('/', (req, res)=>{
     // IP and location related stuff
-    clientIp = requestIp.getClientIp(req);
-    let dataToWrite = {};
-    fs.open( path.join(__dirname,'../data.json'),'r+', function (err, fileDescriptor) {
-        if(!err && fileDescriptor){
-            try{
-                dataToWrite = fs.readFileSync(fileDescriptor,{encoding:'utf8', flag:'r'});
-                console.log(dataToWrite);
-                dataToWrite = JSON.parse(dataToWrite);
-                dataToWrite["clientIp"] = clientIp;
-                dataToWrite["clientIp"] = "42.105.2.229";
-                console.log(dataToWrite);
-                fs.writeFileSync('./data.json',JSON.stringify(dataToWrite));
+    // clientIp = requestIp.getClientIp(req);
+    // let dataToWrite = {};
+    // fs.open( path.join(__dirname,'../data.json'),'r+', function (err, fileDescriptor) {
+    //     if(!err && fileDescriptor){
+    //         try{
+    //             dataToWrite = fs.readFileSync(fileDescriptor,{encoding:'utf8', flag:'r'});
+    //             console.log(dataToWrite);
+    //             dataToWrite = JSON.parse(dataToWrite);
+    //             dataToWrite["clientIp"] = clientIp;
+    //             dataToWrite["clientIp"] = "42.105.2.229";
+    //             console.log(dataToWrite);
+    //             fs.writeFileSync('./data.json',JSON.stringify(dataToWrite));
                 
-                fs.close(fileDescriptor,err=>{
-                    // console.log(err);
-                    if(!err){
-                        console.log(false);
-                    }else{
-                        console.log('Error closing file!');
-                    }
-                });
-            }catch(e){
-                console.log('Error writing data to file!');
-            }
-        }else{
-            console.log('Couldn\'t open file!');
-        }
-    });
+    //             fs.close(fileDescriptor,err=>{
+    //                 // console.log(err);
+    //                 if(!err){
+    //                     console.log(false);
+    //                 }else{
+    //                     console.log('Error closing file!');
+    //                 }
+    //             });
+    //         }catch(e){
+    //             console.log('Error writing data to file!');
+    //         }
+    //     }else{
+    //         console.log('Couldn\'t open file!');
+    //     }
+    // });
     res.status(200).sendFile(path.join(__dirname,'../src/index.html'));
 });
 
@@ -285,7 +288,7 @@ router.post('/login', async (req, res) => {
     console.log(user);
 
 	if (!user) {
-		return res.json({ status: 'error', error: 'Invalid username/password' })
+		return res.json({ status: 'error', error: 'User not found!' })
 	}
 
 	if (await bcrypt.compare(password, user.password)) {

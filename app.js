@@ -9,7 +9,7 @@ const fs = require("fs");
 const { json } = require("express");
 const router = require('./routes/routes');
 const app = express();
-const port = 80;
+const PORT = process.env.PORT || 80;
 const hostname = "localhost";
 let clientIp = "42.105.2.229";
 const mongoose = require('mongoose')
@@ -30,6 +30,6 @@ app.use(express.json());
 app.use('/',router);
 
 // starting server
-app.listen(port, hostname, ()=>{
-    console.log(`The application started successfully on port ${port}`);
+app.listen(PORT, ()=>{
+    console.log(`The application started successfully on port ${PORT}`);
 });
