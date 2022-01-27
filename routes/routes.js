@@ -82,7 +82,7 @@ router.get('/', (req, res)=>{
                 console.log(dataToWrite);
                 dataToWrite = JSON.parse(dataToWrite);
                 dataToWrite["clientIp"] = clientIp;
-                dataToWrite["clientIp"] = "42.105.2.229";
+                // dataToWrite["clientIp"] = "42.105.2.229";
                 console.log(dataToWrite);
                 fs.writeFileSync('./data.json',JSON.stringify(dataToWrite));
                 
