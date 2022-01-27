@@ -73,34 +73,34 @@ const Subs = require(path.join(__dirname,'../model/modelNewsletter.js'));
 // default page (homePage) (get)
 router.get('/', (req, res)=>{
     // IP and location related stuff
-    // clientIp = requestIp.getClientIp(req);
-    // let dataToWrite = {};
-    // fs.open( path.join(__dirname,'../data.json'),'r+', function (err, fileDescriptor) {
-    //     if(!err && fileDescriptor){
-    //         try{
-    //             dataToWrite = fs.readFileSync(fileDescriptor,{encoding:'utf8', flag:'r'});
-    //             console.log(dataToWrite);
-    //             dataToWrite = JSON.parse(dataToWrite);
-    //             dataToWrite["clientIp"] = clientIp;
-    //             dataToWrite["clientIp"] = "42.105.2.229";
-    //             console.log(dataToWrite);
-    //             fs.writeFileSync('./data.json',JSON.stringify(dataToWrite));
+    clientIp = requestIp.getClientIp(req);
+    let dataToWrite = {};
+    fs.open( path.join(__dirname,'../data.json'),'r+', function (err, fileDescriptor) {
+        if(!err && fileDescriptor){
+            try{
+                dataToWrite = fs.readFileSync(fileDescriptor,{encoding:'utf8', flag:'r'});
+                console.log(dataToWrite);
+                dataToWrite = JSON.parse(dataToWrite);
+                dataToWrite["clientIp"] = clientIp;
+                dataToWrite["clientIp"] = "42.105.2.229";
+                console.log(dataToWrite);
+                fs.writeFileSync('./data.json',JSON.stringify(dataToWrite));
                 
-    //             fs.close(fileDescriptor,err=>{
-    //                 // console.log(err);
-    //                 if(!err){
-    //                     console.log(false);
-    //                 }else{
-    //                     console.log('Error closing file!');
-    //                 }
-    //             });
-    //         }catch(e){
-    //             console.log('Error writing data to file!');
-    //         }
-    //     }else{
-    //         console.log('Couldn\'t open file!');
-    //     }
-    // });
+                fs.close(fileDescriptor,err=>{
+                    // console.log(err);
+                    if(!err){
+                        console.log(false);
+                    }else{
+                        console.log('Error closing file!');
+                    }
+                });
+            }catch(e){
+                console.log('Error writing data to file!');
+            }
+        }else{
+            console.log('Couldn\'t open file!');
+        }
+    });
     res.status(200).sendFile(path.join(__dirname,'../src/index.html'));
 });
 
