@@ -214,6 +214,7 @@
         if (result.status === "ok") {
           // everythign went fine
           alert("Success");
+          localStorage.setItem("status","registered");
           window.location = '/success';
         } else {
           alert(result.error);

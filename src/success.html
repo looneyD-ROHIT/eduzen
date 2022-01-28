@@ -16,6 +16,18 @@
     <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
   </head>
   <body>
+    <script>
+      const flag = localStorage.status === "registered" ? true : false;
+      if (flag) {
+        console.log("Token Exists!");
+      }else{
+        if(confirm("You are not registered/logged in!\nDo you register/login ?")){
+          window.location = '/join';
+        }else{
+          window.location = '/';
+        }
+      }
+    </script>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="/">EDUZEN</a>
