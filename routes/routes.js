@@ -174,11 +174,11 @@ router.get('/feedback',(req,res)=>{
 });
 
 // blogs page (get)
-router.get('/blogs',(req,res)=>{
-    // res.status(200).sendFile(path.join(__dirname,'../src/feedback.html'));
-	res.status(200).end('404, page not found!');
+// router.get('/blogs',(req,res)=>{
+//     // res.status(200).sendFile(path.join(__dirname,'../src/feedback.html'));
+// 	res.status(200).end('404, page not found!');
 
-});
+// });
 
 // registration page (post)
 router.post('/register', async (req, res) => {
