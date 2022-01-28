@@ -17,6 +17,29 @@
     <link rel="icon" type="image/x-icon" href="static/images/favicon.png" />
   </head>
   <body>
+    <script>
+      const flag = localStorage.token === undefined ? false : true;
+      if (flag) {
+        console.log("Token Exists!");
+        // isLogOutPresent
+        // isLogOutPresent.innerHTML = `<button class="btn btn-danger logout" style="width:25%;margin-left:0.3em">
+        //   <a
+        //   href="/"
+        //   role="button" style="text-decoration: none; color: white;">LogOut
+        //   </a>
+        //   </button>`;
+        check(`${localStorage.token}`);
+      }else{
+        // isLogOutPresent.innerHTML = ``;
+        window.location = '/';
+      }
+      function check(data) {
+        data = data.split(".")[1];
+        const reqDetails = JSON.parse(atob(data));
+        const divElement = document.getElementsByClassName("userDetails");
+        divElement[0].innerHTML = `<span><h4>WELCOME, ${reqDetails.username.toUpperCase()}</h4></span>`;
+      }
+    </script>
     <div class="jumbotron text-center" style="margin-bottom: 10px">
       <h1><b>Welcome To EDUZEN</b></h1>
       <p>
@@ -467,7 +490,7 @@
         </div>
       </div>
     </div>
-    <p class="text-center">&copy; 2022 strivers_1729</p>
+    <p class="text-center">&copy; 2022 <a href="/" style="text-decoration: none;color: black;">strivers_1729</a></p>
     <style>
       body {
         background-color: #e9ecef;
@@ -492,27 +515,7 @@
     <script>
       // const isLogOutPresent = document.getElementById('isLogOutPresent');
       // console.log(isLogOutPresent);
-      const flag = localStorage.token === undefined ? false : true;
-      if (flag) {
-        console.log("Token Exists!");
-        // isLogOutPresent
-        // isLogOutPresent.innerHTML = `<button class="btn btn-danger logout" style="width:25%;margin-left:0.3em">
-        //   <a
-        //   href="/"
-        //   role="button" style="text-decoration: none; color: white;">LogOut
-        //   </a>
-        //   </button>`;
-        check(`${localStorage.token}`);
-      }else{
-        // isLogOutPresent.innerHTML = ``;
-        window.location = '/';
-      }
-      function check(data) {
-        data = data.split(".")[1];
-        const reqDetails = JSON.parse(atob(data));
-        const divElement = document.getElementsByClassName("userDetails");
-        divElement[0].innerHTML = `<span><h4>WELCOME, ${reqDetails.username.toUpperCase()}</h4></span>`;
-      }
+      
 
 
       const logout = document.getElementsByClassName('logout')[0];

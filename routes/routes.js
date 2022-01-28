@@ -70,6 +70,8 @@ const User = require(path.join(__dirname,'../model/model.js'));
 // importing newsletter subscriptions schema
 const Subs = require(path.join(__dirname,'../model/modelNewsletter.js'));
 
+const presentNow = ['home','about','feedback','join','register','login','newsletter','logout','notes','videos','success','player'];
+
 // default page (homePage) (get)
 router.get('/', (req, res)=>{
     // IP and location related stuff
@@ -157,9 +159,9 @@ router.get('/player',(req,res)=>{
 });
 
 // contact page (get)
-router.get('/contact',(req,res)=>{
-    res.status(200).sendFile(path.join(__dirname,'../src/contact.html'));
-});
+// router.get('/contact',(req,res)=>{
+//     res.status(200).sendFile(path.join(__dirname,'../src/contact.html'));
+// });
 
 // about page (get)
 router.get('/about',(req,res)=>{
@@ -342,5 +344,22 @@ router.post('/change-password', async (req, res) => {
 		res.json({ status: 'error', error: ';))' })
 	}
 })
+
+// not found (get)
+router.get('/:slug',(req,res)=>{
+	// console.log(req.params.slug);
+	if(!presentNow.includes(req.params.slug,)){
+		res.status(404).sendFile(path.join(__dirname,'../src/notfound.html'));
+	}
+});
+
+// not found (post)
+router.post('/:slug',(req,res)=>{
+	// console.log(req.params.slug);
+	if(!presentNow.includes(req.params.slug,)){
+		// res.status(404).sendFile(path.join(__dirname,'../src/notfound.html'));
+		res.status(404).end({"status":"ok","err":"temporarily closed!"});
+	}
+});
 
 module.exports = router;
